@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Next-Level Navigator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#2E7D32" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="appbar">
+    <h1>🚦 Next-Level Navigator</h1>
+    <div class="appbar-actions">
+      <button id="themeToggle" title="Toggle theme">🌙</button>
+      <button id="installBtn" class="hide">⬇️ Install</button>
+    </div>
+  </header>
+
+  <!-- Glass controls -->
+  <section class="controls glass">
+    <input id="from" type="text" placeholder="Starting point (address or lat,lon)" />
+    <input id="to" type="text" placeholder="Destination (address or lat,lon)" />
+    <button id="routeBtn">🚀 Go</button>
+  </section>
+
+  <div id="map"></div>
+
+  <!-- Bottom sheet: directions -->
+  <section id="sheet" class="glass">
+    <div class="handle"></div>
+    <div class="sheet-header">
+      <div><strong id="dist">—</strong> • <span id="dur">—</span></div>
+      <div id="status">Ready</div>
+    </div>
+    <ol id="steps"></ol>
+  </section>
+
+  <!-- Floating buttons -->
+  <div class="fab-col">
+    <button id="locateFAB" class="fab" title="Locate me">📍</button>
+    <button id="followFAB" class="fab" title="Follow on/off">🎯</button>
+    <button id="muteFAB" class="fab" title="Voice on/off">🔊</button>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // PWA install prompt
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.classList.remove('hide');
+    });
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      installBtn.classList.add('hide');
+    });
+
+    // Service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js');
+    }
+  </script>
+</body>
+</html>

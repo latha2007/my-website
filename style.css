@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+:root{
+  --bg:#f0f3f7; --fg:#222;
+  --brand:#2E7D32; --brand2:#43a047;
+  --glass-bg: rgba(255,255,255,0.75);
+  --glass-border: rgba(0,0,0,0.08);
+}
+body.dark{
+  --bg:#121212; --fg:#eee;
+  --brand:#0e7a5f; --brand2:#15a37f;
+  --glass-bg: rgba(25,25,25,0.75);
+  --glass-border: rgba(255,255,255,0.09);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background:var(--bg); color:var(--fg);
+}
+
+/* App bar */
+.appbar{
+  position:relative; z-index:1001;
+  background: linear-gradient(135deg,var(--brand),var(--brand2));
+  color:#fff; padding:.9rem 1rem; display:flex; align-items:center; justify-content:space-between;
+  box-shadow:0 6px 18px rgba(0,0,0,.18);
+}
+.appbar h1{margin:0; font-size:1.1rem; letter-spacing:.2px}
+.appbar-actions{display:flex; gap:.5rem}
+.appbar-actions button{border:none; padding:.5rem .8rem; border-radius:999px; cursor:pointer}
+#themeToggle{background:rgba(255,255,255,.25)}
+#installBtn{background:#fff; color:#222; font-weight:600}
+.hide{display:none}
+
+/* Glass controls */
+.glass{
+  background:var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border:1px solid var(--glass-border);
+  box-shadow: 0 12px 28px rgba(0,0,0,.12);
+}
+.controls{
+  position:absolute; z-index:1000; left:50%; transform:translateX(-50%);
+  top:68px; display:flex; gap:.6rem; padding:.6rem; border-radius:16px; width:min(900px,94%);
+}
+.controls input{
+  flex:1; border:none; border-radius:12px; padding:.7rem .9rem; font-size:.95rem; outline:none; background:#fff;
+}
+body.dark .controls input{background:#1f1f1f; color:#eee; border:1px solid #333}
+.controls button{
+  border:none; border-radius:12px; padding:.7rem 1rem; background:var(--brand); color:#fff; font-weight:600; cursor:pointer;
+  transition:transform .15s ease, filter .2s ease;
+}
+.controls button:active{transform:scale(.98)}
+
+/* Map */
+#map{height:100vh; width:100vw}
+
+/* Bottom sheet */
+#sheet{
+  position:fixed; left:0; right:0; bottom:0; width:100%;
+  border-radius:16px 16px 0 0; padding:.5rem .8rem; max-height:40vh; min-height:60px;
+  overflow:auto; transition:max-height .25s ease;
+}
+#sheet.expanded{max-height:80vh}
+#sheet .handle{width:56px; height:6px; border-radius:999px; margin:.3rem auto .5rem; background:rgba(0,0,0,.25)}
+body.dark #sheet .handle{background:rgba(255,255,255,.35)}
+.sheet-header{display:flex; align-items:center; justify-content:space-between; padding:.25rem .25rem .5rem}
+#dist, #dur{color:var(--brand)}
+#steps{list-style:decimal; padding:0 0 1rem 1.1rem; margin:0}
+#steps li{padding:.45rem .5rem; border-radius:8px; margin:.15rem 0; line-height:1.25}
+#steps li.active{outline:2px solid var(--brand); background:rgba(46,125,50,.12)}
+body.dark #steps li.active{background:rgba(21,163,127,.15)}
+
+/* FABs */
+.fab-col{position:fixed; right:14px; bottom:20%; display:flex; flex-direction:column; gap:12px; z-index:1000}
+.fab{
+  width:52px; height:52px; border-radius:50%; border:none; cursor:pointer; font-size:1.25rem;
+  background:#fff; color:#222; box-shadow:0 10px 24px rgba(0,0,0,.24);
+}
+body.dark .fab{background:#1f1f1f; color:#eee; box-shadow:0 10px 24px rgba(0,0,0,.4)}
+
+/* Pulsing live-location marker */
+.pulse {
+  width:18px; height:18px; background:#2e7dff; border-radius:50%; border:2px solid #fff;
+  box-shadow:0 0 0 rgba(46,125,255,0.6);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%{box-shadow:0 0 0 0 rgba(46,125,255,0.6)}
+  70%{box-shadow:0 0 0 16px rgba(46,125,255,0)}
+  100%{box-shadow:0 0 0 0 rgba(46,125,255,0)}
+}
+
+/* Dark mode toggles */
+body.dark #themeToggle{background:rgba(255,255,255,.12); color:#fff}
